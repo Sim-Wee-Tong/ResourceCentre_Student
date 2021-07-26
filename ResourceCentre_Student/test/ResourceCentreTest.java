@@ -98,6 +98,35 @@ public class ResourceCentreTest {
 		//fail("Not yet implemented");
 		// write your code here
 		
+		// Test if Item list is not null but empty, so that can add a new item
+		assertNotNull("Test if there is valid Chromebook arraylist to add to", chromebookList);
+		
+		//test if the list of chromebooks retrieved from the SourceCentre is empty
+				String allChromebooks= ResourceCentre.retrieveAllChromebook(chromebookList);
+				String testOutput = "";
+				assertEquals("Check that ViewAllChromebooklist", testOutput, allChromebooks);
+				
+		//Given an empty list, after adding 2 items, test if the size of the list is 2
+				// Test if Item list is not null but empty, so that can add a new item
+				assertNotNull("Test if there is valid Chromebook arraylist to add to", chromebookList);
+
+				//test if the list of chromebook retrieved from the SourceCentre is empty
+				String allChromebook= ResourceCentre.retrieveAllChromebook(chromebookList);
+				String outputTest = "";
+				assertEquals("Check that ViewAllCamcorderlist", outputTest, allChromebook);
+
+				//Given an empty list, after adding 2 items, test if the size of the list is 2
+				ResourceCentre.addChromebook(chromebookList, cb1);
+				ResourceCentre.addChromebook(chromebookList, cb2);
+				assertEquals("Test if that Chromebook arraylist size is 2?", 2, chromebookList.size());
+
+				//test if the expected output string same as the list of chromebooks retrieved from the SourceCentre
+				allChromebook= ResourceCentre.retrieveAllChromebook(chromebookList);
+
+				testOutput = String.format("%-10s %-30s %-10s %-10s \n","CB0011", "My Google Chromebook 1st", "Yes", "Mac OS");
+				testOutput += String.format("%-10s %-30s %-10s %-10s \n","CB0012", "SAMSUNG Chromebook 4+", "Yes", "Win 10");
+
+				assertEquals("Check that ViewAllChromebooklist", testOutput, allChromebook);
 	}
 
 	@Test
@@ -105,12 +134,27 @@ public class ResourceCentreTest {
 		//fail("Not yet implemented");
 		// write your code here
 		
+		assertNotNull("Test if there is valid Camcorder arraylist to add to", camcorderList);
+		ResourceCentre.addCamcorder(camcorderList, cc1);
+		assertEquals("Test if the Camcorder arraylist size is 1?", 1, camcorderList.size());
+		ResourceCentre.doLoanCamcorder(camcorderList, cc1.getAssetTag(), cc1.getDueDate());
+		camcorderList.remove(cc1);
+		assertEquals("Test if the Camcorder arraylist is reduce by 1?", 0, camcorderList.size());
+		assertFalse(cc1.getIsAvailable());
 	}
 	
 	@Test
 	public void testDoLoanChromebook() {
 		//fail("Not yet implemented");
 		// write your code here
+		
+		assertNotNull("Test if there is valid Chromebook arraylist to add to", chromebookList);
+		ResourceCentre.addChromebook(chromebookList, cb1);
+		assertEquals("Test if the Chromebook arraylist size is 1?", 1, chromebookList.size());
+		ResourceCentre.doLoanChromebook(chromebookList, cb1.getAssetTag(), cb1.getDueDate());
+		chromebookList.remove(cb1);
+		assertEquals("Test if the Chromebook arraylist is reduce by 1?", 0, chromebookList.size());
+		assertFalse(cb1.getIsAvailable());
 	}
 	
 	@Test
@@ -118,12 +162,24 @@ public class ResourceCentreTest {
 		//fail("Not yet implemented");
 		// write your code here
 		
+		 assertNotNull("Test if there is valid Camcorder arraylist to add to", camcorderList);                            
+         ResourceCentre.doReturnCamcorder(camcorderList, cc1.getAssetTag());
+         camcorderList.add(cc1);
+         assertEquals("Test if the Camcorder arraylist is add by 1?", 1, camcorderList.size());
+
+         assertTrue(cc1.getIsAvailable());
 	}
 	@Test
 	public void testDoReturnChromebook() {
 		//fail("Not yet implemented");
 		// write your code here
-		String test = "Test";
+		
+		 assertNotNull("Test if there is valid Chromebook arraylist to add to", chromebookList);                            
+         ResourceCentre.doReturnChromebook(chromebookList, cc1.getAssetTag());
+         chromebookList.add(cb1);
+         assertEquals("Test if the Chromebook arraylist is add by 1?", 1, chromebookList.size());
+
+         assertTrue(cb1.getIsAvailable());
 	}
 	
 	@After
